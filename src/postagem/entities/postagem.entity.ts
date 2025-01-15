@@ -1,6 +1,7 @@
 import { Transform, TransformFnParams } from "class-transformer";
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Tema } from "../../tema/entities/tema.entity";
 
 @Entity({name: "tb_postagens"}) // CREATE TABLE tb_postagens()
 export class Postagem{
@@ -20,4 +21,9 @@ export class Postagem{
 
     @UpdateDateColumn() // Já cria com a data e hora do computador.
     data: Date;
+// postagem se relaciona com Tema
+    @ManyToOne(() => Tema, (tema) => tema.postagem, {
+        onDelete: "CASCADE" //adota somente no Lado N da relação
+    })
+    tema: Tema;
 }

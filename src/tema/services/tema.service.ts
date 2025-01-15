@@ -12,7 +12,11 @@ export class TemaService {
     ) { }
 
     async findAll(): Promise<Tema[]> {
-        return this.temaRepository.find(); //SELECT * FROM tb_postagens;
+        return this.temaRepository.find({
+            relations: { //habilitando o relacionamento na consulta
+                postagem: true
+            }
+        }); //SELECT * FROM tb_postagens;
     }
 
     async findById(id: number): Promise<Tema> {
@@ -21,6 +25,9 @@ export class TemaService {
         const tema = await this.temaRepository.findOne({
             where: {
                 id
+            },
+            relations: { //habilitando o relacionamento na consulta
+                postagem: true
             }
         });
 
@@ -34,22 +41,25 @@ export class TemaService {
         return this.temaRepository.find({
             where: {
                 descricao: ILike(`%${descricao}%`) //ILike = case insensitive
+            },
+            relations: { //habilitando o relacionamento na consulta
+                postagem: true
             }
         });
     }
 
-    async create(tema: Tema): Promise<Tema>{
+    async create(tema: Tema): Promise<Tema> {
         return await this.temaRepository.save(tema)
     }
 
-    async update(tema: Tema): Promise<Tema>{
+    async update(tema: Tema): Promise<Tema> {
 
         await this.findById(tema.id)
 
         return await this.temaRepository.save(tema)
     }
 
-    async delete(id: number): Promise<DeleteResult>{
+    async delete(id: number): Promise<DeleteResult> {
 
         await this.findById(id)
 
