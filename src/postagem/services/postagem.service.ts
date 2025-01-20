@@ -17,7 +17,8 @@ export class PostagemService{
     async findAll(): Promise<Postagem[]>{
         return this.postagemRepository.find({
             relations: { //habilitando o relacionamento na consulta
-                tema: true
+                tema: true,
+                usuario: true
             }
         }); //SELECT * FROM tb_postagens;
     }
@@ -30,7 +31,8 @@ export class PostagemService{
                 id
             },
             relations: { 
-                tema: true
+                tema: true,
+                usuario: true
             }
         });
 
@@ -46,7 +48,8 @@ export class PostagemService{
                 titulo: ILike(`%${titulo}%`) //ILike = case insensitive
             },
             relations: { 
-                tema: true
+                tema: true,
+                usuario: true
             }
         });
     }
@@ -61,6 +64,10 @@ export class PostagemService{
     }
 
     async update(postagem: Postagem): Promise<Postagem>{
+
+        if(!postagem.id || postagem.id <= 0)
+            throw new HttpException("Postagem inválida", HttpStatus.BAD_REQUEST)
+
 
         await this.findById(postagem.id)
 
