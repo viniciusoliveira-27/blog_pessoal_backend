@@ -21,14 +21,14 @@ import { UsuarioModule } from './usuario/usuario.module';
       database: 'db_blogpessoal',
       entities: [Postagem, Tema, Usuario],
       synchronize: true,
-      // logging: true,
+      logging: true,
     }),
     PostagemModule,
     TemaModule,
     AuthModule,
     UsuarioModule
   ],                  //Imports: pegar o que vem de fora
-  controllers: [], //controllers: controladores
+  controllers: [AppController], //controllers: controladores
   providers: [],      //providers: classes de serviços
 })
 export class AppModule {}
